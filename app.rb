@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
+PARSERS = %w[
+  name address point
+].freeze
+
 def parse(hash)
-  parser = -> (hash) { hash }
-
-  %w[name address point].each do |parser_name|
-    # Equals to parser = parser >> <parser class>.constantize
-    parser >>= Object.const_get("Parsers::#{parser_name.capitalize}")
-  end
-
-  parser.(hash)
+  @parser ||=
+    begin
+      parser = -> (hash) { hash }
+      PARSERS.each { |klass| parser >>= constantize(klass) }
+      parser
+    end
+  @parser.(hash)
 end
-
