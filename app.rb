@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 PARSERS = %w[
-  name address point
+  name address point person
 ].freeze
 
 def parse(hash)
